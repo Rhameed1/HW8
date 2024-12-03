@@ -125,7 +125,6 @@ public class Graph {
     if (count == 1) {
       return vertexValues.get(index);
     }
-    // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
     return -1;
   } 
 }
