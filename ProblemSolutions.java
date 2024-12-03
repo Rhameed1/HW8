@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   ADD YOUR NAME / SECTION NUMBER HERE
+ *   Ramiz Hameed / 002
  *
  *   This java file contains the problem solutions of canFinish and
  *   numGroups methods.
@@ -75,15 +75,38 @@ class ProblemSolutions {
     public boolean canFinish(int numExams, 
                              int[][] prerequisites) {
       
-        int numNodes = numExams;  // # of nodes in graph
-
+        //int numNodes = numExams;  // # of nodes in graph
         // Build directed graph's adjacency list
-        ArrayList<Integer>[] adj = getAdjList(numExams, 
-                                        prerequisites); 
+        ArrayList<Integer>[] adj = getAdjList(numExams, prerequisites);
 
-        // ADD YOUR CODE HERE - ADD YOUR NAME / SECTION AT TOP OF FILE
-        return false;
+        int[] visitStatus = new int[numExams];
 
+        for (int i = 0; i < numExams; i++) {
+            if (visitStatus[i] == 0) { //  unvisited are processed
+                Stack<Integer> stack = new Stack<>();
+                stack.push(i);
+
+                while (!stack.isEmpty()) {
+                    int node = stack.peek();
+
+                    if (visitStatus[node] == 0) { // visiting
+                        visitStatus[node] = 1;
+
+                        for (int neighbor : adj[node]) { // push all unvisited on stack
+                            if (visitStatus[neighbor] == 0) {
+                                stack.push(neighbor);
+                            } else if (visitStatus[neighbor] == 1) {
+                                return false;
+                            }
+                        }
+                    } else {
+                        visitStatus[node] = 2;
+                        stack.pop();
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 
@@ -190,9 +213,35 @@ class ProblemSolutions {
             }
         }
 
-        // YOUR CODE GOES HERE - you can add helper methods, you do not need
-        // to put all code in this method.
-        return -1;
+        boolean[] visited = new boolean[numNodes]; // track seen
+        int groupCount = 0;
+
+
+        for (i = 0; i < numNodes; i++) { // go through all the nodes
+            if (!visited[i]) {
+                groupCount++;
+                Stack<Integer> stack = new Stack<>();
+                stack.push(i); // push first node on stack
+
+                while (!stack.isEmpty()) { // ensure all nodes are seen
+                    int node = stack.pop(); // get next node
+                    if (!visited[node]) { // avoid revisits
+                        visited[node] = true;
+
+
+                        if (graph.containsKey(node)) { // add not seen on stack
+                            for (int neighbor : graph.get(node)) {
+                                if (!visited[neighbor]) {
+                                    stack.push(neighbor);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return groupCount;
     }
 
 }

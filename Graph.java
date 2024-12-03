@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Ramiz Hameed/ 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -104,6 +104,27 @@ public class Graph {
   
   public int findRoot() {
 
+    int[] degree = new int[numVertices];
+
+    for (int i = 0; i < numVertices; i++) {
+      for (int neighbor : adjListArr[i]) {
+        degree[neighbor]++;
+      }
+    }
+
+    int index = -1; // index of vertex
+    int count = 0; // # of root candidates
+
+    for (int i = 0; i < numVertices; i++) {
+      if (degree[i] == 0) {
+        index = i; // could be root
+        count++;
+      }
+    }
+
+    if (count == 1) {
+      return vertexValues.get(index);
+    }
     // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME/SECTION AT TOP OF FILE
     return -1;
   } 
